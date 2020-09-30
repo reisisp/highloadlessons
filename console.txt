@@ -6,3 +6,4 @@ systemctl start mysqld
 systemctl enable mysqld
 grep -i password /var/log/mysqld.log
 mysql_secure_installation
+(настройка нового пароля для доступа к бд)
