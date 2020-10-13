@@ -1,0 +1,44 @@
+Последовательность команд
+
+урок 1
+sudo su
+visudo vagrant ALL=(ALL) ALL
+
+
+урок 2
+sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+sudo php composer-setup.php
+sudo php -r "unlink('composer-setup.php');"
+sudo mv composer.phar /usr/bin/composer
+cd /var/www/mysite.local
+composer require monolog/monolog
+
+урок 3
+systemctl start mysqld
+systemctl enable mysqld
+grep -i password /var/log/mysqld.log
+mysql_secure_installation
+
+systemctl enable php72-php-fpm
+systemctl restart php72-php-fpm
+systemctl enable nginx
+systemctl restart nginx
+reboot
+
+урок 4
+sudo nano /etc/my.cnf (редактирование master)
+sudo systemctl restart mysqld
+mysql -u root -p
+	CREATE USER 'slave_user'@'192.168.1.2' IDENTIFIED BY 'Pass';
+	alter user 'slave_u'@'192.168.1.2' IDENTIFIED WITH mysql_native_password by 'Pass';
+	GRANT REPLICATION SLAVE ON *.* TO 'slave_u'@'192.168.1.2' IDENTIFIED BY 'Pass';
+	FLUSH PRIVILEGES;
+
+sudo nano /etc/my.cnf (редактирование slave)
+sudo systemctl restart mysqld
+mysql -u root -p
+	CHANGE MASTER TO MASTER_HOST='192.168.1.1', MASTER_USER='slave_u', MASTER_PASSWORD='Pass', MASTER_LOG_FILE='mysql-bin.000002', MASTER_LOG_POS=1218;
+	start slave;
+
+
+
